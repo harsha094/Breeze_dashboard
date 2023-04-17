@@ -17,11 +17,11 @@
         @csrf
         @method('patch')
 
-        <div>
+        <!-- <div>
             <x-input-label for="name" :value="__('Avatar')" />
             <x-text-input id="avatar" name="avatar" type="file" class="mt-1 block w-full" :value="old('avatar', $user->avatar)" required autofocus autocomplete="avatar" />
             <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
-        </div>
+        </div> -->
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
