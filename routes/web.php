@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Http\Controllers\Profile\AvatarController;
+use App\Http\Controllers\TicketController;
 use Laravel\Socialite\Facades\Socialite;
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,13 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+// Route::get('/openai', function(){
+//     $result = OpenAI::completions()->create([
+//         'model' => 'text-davinci-003',
+//         'prompt' => 'PHP is',
+//     ]);
+//     echo $result['choices'][0]['text'];
+// });
 Route::get('/auth/redirect', function () {
     return Socialite::driver('github')->redirect();
 });
@@ -52,3 +60,8 @@ Route::get('/auth/callback', function () {
     dd($user);
     // $user->token
 }); 
+Route::middleware('auth')->group(function(){
+    Route::resource('/ticket', TicketController::class); // resource route
+    // Route::get('/ticket/create', [TicketController::class, 'create'])->name('ticket.create');
+    // Route::post('/ticket/create', [TicketController::class, 'store'])->name('ticket.store');
+});
