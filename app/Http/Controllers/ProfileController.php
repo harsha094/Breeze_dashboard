@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use PHPMailer\PHPMailer\PHPMailer;
+use  PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 class ProfileController extends Controller
 {
@@ -22,7 +25,7 @@ class ProfileController extends Controller
         ]);
         // $user = Auth::user();
         // return view('user.profile', compact('user'));
-    
+
     }
 
     /**
@@ -60,5 +63,35 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+    public function sendMail()
+    {
+
+        $phpmailer = new PHPMailer();
+        $phpmailer->isSMTP();
+        $phpmailer->Host = 'smtp.mailtrap.io';
+        $phpmailer->SMTPAuth = true;
+        $phpmailer->Port = 465;
+        $phpmailer->Username = 'cd6dce04978bd4';
+        $phpmailer->Password = 'a038b0cfe98af7';
+
+        $phpmailer->setFrom('testmailz1tech@gmail.com', 'Mailtrap');
+        //$mail->addReplyTo('testmailz1tech@gmail.com', 'Mailtrap');
+        $phpmailer->addAddress('harsharahuwanshi094@gmail.com', 'Harsh');
+
+
+        $phpmailer->Subject = 'Test Email via Mailtrap SMTP using PHPMailer';
+        $phpmailer->isHTML(true);
+
+        $mailContent = "<h1>Send HTML Email using SMTP in PHP</h1>
+        <p>This is a test email I’m sending using SMTP mail server with PHPMailer.</p>";
+        $phpmailer->Body = $mailContent;
+
+        if ($phpmailer->send()) {
+            echo 'Message has been sent';
+        } else {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $phpmailer->ErrorInfo;
+        }
     }
 }
